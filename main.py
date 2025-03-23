@@ -1,5 +1,5 @@
 import os
-from smolagents import ToolCallingAgent, OpenAIServerModel, ToolCollection, GradioUI
+from smolagents import OpenAIServerModel, ToolCollection, GradioUI
 from mcp import StdioServerParameters
 from smolagents.agents import CodeAgent
 
@@ -10,13 +10,19 @@ server_parameters = StdioServerParameters(
 )
 
 model = OpenAIServerModel(
-    model_id="anthropic/claude-3.7-sonnet",
+    model_id="meta-llama/llama-3.3-70b-instruct",
     api_base="https://openrouter.ai/api/v1",
-    api_key=os.environ["API_KEY"]
+    api_key=os.environ["API_KEY"],
 )
 
 with ToolCollection.from_mcp(server_parameters) as tool_collection:
-    agent = CodeAgent(tools=[*tool_collection.tools], model=model, additional_authorized_imports=["time", "numpy", "pandas"])
-    ui = GradioUI(agent=agent)
-    ui.launch()
-    # agent.run("research a clinical study for me about medical intervention that can help lower weight in diabetes patient, summarized each intervention and citation properly")
+    agent = CodeAgent(
+        tools=[*tool_collection.tools],
+        model=model,
+        additional_authorized_imports=["time", "numpy", "pandas"],
+    )
+    # ui = GradioUI(agent=agent)
+    # ui.launch()
+    agent.run(
+        "summarized how obstructive sleep apnea affect cognitive function. citation properly in final answer"
+    )
