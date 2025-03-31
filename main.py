@@ -6,11 +6,11 @@ from smolagents.agents import CodeAgent
 server_parameters = StdioServerParameters(
     command="uvx",
     args=["--quiet", "pubmedmcp@0.1.3"],
-    env={"UV_PYTHON": "3.12", **os.environ},
+    env={"UV_PYTHON": "3.13", **os.environ},
 )
 
 model = OpenAIServerModel(
-    model_id="meta-llama/llama-3.3-70b-instruct",
+    model_id="deepseek/deepseek-chat-v3-0324",
     api_base="https://openrouter.ai/api/v1",
     api_key=os.environ["API_KEY"],
 )
@@ -24,5 +24,5 @@ with ToolCollection.from_mcp(server_parameters) as tool_collection:
     # ui = GradioUI(agent=agent)
     # ui.launch()
     agent.run(
-        "summarized how obstructive sleep apnea affect cognitive function. citation properly in final answer"
+        "clinical study of eating many eggs effect on cholesterol, citation each finding properly with aha format"
     )
